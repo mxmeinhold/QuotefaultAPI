@@ -148,6 +148,28 @@ def all_quotes(api_key: str):
         return "Invalid API Key!", 403
 
 
+@app.route('/<api_key>/all/<page>', methods=['GET'])
+@cross_origin(headers=['Content-Type'])
+def paged_quotes(api_key: str, page):
+    """
+    Returns all Quotes in the database in pages
+    :param api_key: API key allowing for the use of the API
+    :param page: The number of the page to query for
+    :return: Returns JSON of all quotes in the specified page in Quotefault database
+    """
+    if check_key(api_key):
+        date = request.args.get('date')
+        submitter = request.args.get('submitter')
+        speaker = request.args.get('speaker')
+        page = query_builder(date, None, submitter, speaker).paginate(int(page), int(app.config['PAGE_SIZE']), False)
+        if len(page.items) == 0:
+            return "none"
+        return parse_as_json(page.items)
+    else:
+        return "Invalid API Key!", 403
+
+
+
 @app.route('/<api_key>/random', methods=['GET'])
 @cross_origin(headers=['Content-Type'])
 def random_quote(api_key: str):

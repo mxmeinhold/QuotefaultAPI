@@ -20,3 +20,6 @@ OIDC_CLIENT_CONFIG = {
     'client_secret': os.environ.get('API_QUOTEFAULT_OIDC_CLIENT_SECRET', ''),
     'post_logout_redirect_uris': [os.environ.get('API_QUOTEFAULT_OIDC_LOGOUT_REDIRECT_URI', 'https://quotefault-api.csh.rit.edu/logout')]
 }
+
+# Pagination
+PAGE_SIZE = os.environ.get('API_QUOTEFAULT_PAGE_SIZE', 20)
